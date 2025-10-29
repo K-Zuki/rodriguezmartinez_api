@@ -3,47 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Zona;
+use App\Models\zona;
 
 class ZonaController extends Controller
 {
     //
 
-    public function obtenerZonas(){
-
+    public function obtenerZonas()
+    {
         $Zona = new Zona();
 
         $satisfactorio = false;
         $estado = 0;
         $mensaje = "";
         $errores = [];
-        $valores = [];
+        $valores =[];
 
-        //VERIFICANDO LA EXISTENCIA DE DATOS
         $valores = $Zona::all();
-
-        //SE ENCONTRARON DATOS
-        if(!empty($valores)){
+        
+        //VERIFICACION DE EXISTENCIA DE DATOS   
+        if(!empty($valores))
+        {
+            //SI SE ENCONTRARON DATOS
             $satisfactorio = true;
             $estado = 200;
             $mensaje = "Valores encontrados";
-            $errores = [
+            $errores = 
+            [
                 "code" => 200,
                 "msg" => ""
             ];
-        }else{
-            //NO SE ENCONTRARON DATOS
+        }
+        else
+        {
+            // NO SE ENCONTRARON DATOS
             $satisfactorio = false;
             $estado = 404;
             $mensaje = "No se han encontrado valores";
-            $errores = [
+            $errores = 
+            [
                 "code" => 404,
                 "msg" => "Datos no encontrados"
             ];
         }
 
         //SE CREA LA VARIABLE DE SALIDA
-        $respuesta = [
+        $respuesta = 
+        [
             "success" => $satisfactorio,
             "status" => $estado,
             "msg" => $mensaje,
@@ -54,74 +60,207 @@ class ZonaController extends Controller
 
         //SE RETORNA EL MENSAJE AL USUARIO
         return response()->json($respuesta,$estado);
-
-        $valores = $Zona::all();
-        $respuesta = [
-            "sucess" => true,
-            "msg" => "Valores devueltos por el EndPoint",
-            "data" => $valores,
-            "error" => "",
-            "total" => sizeof($valores) 
-        ];
-
-        return response()->json($respuesta,200);
-
     }
 
-    public function obtenerZona(int $idzona = 0){
+
+
+    public function obtenerZona(int $idzona = 0)
+    {
 
         $satisfactorio = false;
         $estado = 0;
         $mensaje = "";
         $errores = [];
-        $valores = [];
+        $valores =[];
 
-        if($idzona > 0){
+        if($idzona > 0)
+        {
+            //EL PARAMETRO DE $idzona > 0
             $Zona = new Zona();
-            $valores = $Zona->where('id_zona',$idzona)->get();
-            
-            //SE VERIFICA LA EXISTENCIA DE DATOS
-            if(!empty($valores)){
-                //SI SE ENCONTRARON DATOS
-                $satisfactorio = true;
-                $estado = 200;
-                $mensaje = "Valores encontrados";
-                $errores = [
-                    "code" => 200,
-                    "msg" => ""
-                ];
-            }else{
-            //NO SE ENCONTRARON DATOS
-                $satisfactorio = false;
-                $estado = 404;
-                $mensaje = "No se han encontrado valores";
-                $errores = [
-                    "code" => 404,
-                    "msg" => "Datos no encontrados"
-                ];
-            }//FIN DEL if(!empty($valores))
-        
-        }else{
-            //NO SE HA ENVIADO UN VALOR PARA EL PARAMETRO $idzona
+            $valores = $Zona->where('id_zona', $idzona)->get();
+
+            //VERIFICACION DE EXISTENCIA DE DATOS   
+             if(!empty($valores))
+            {
+             //SI SE ENCONTRARON DATOS
+            $satisfactorio = true;
+            $estado = 200;
+            $mensaje = "Valores encontrados";
+            $errores = 
+            [
+              "code" => 200,
+               "msg" => ""
+            ];
+         }
+         else
+         {
+            // NO SE ENCONTRARON DATOS
             $satisfactorio = false;
             $estado = 404;
-            $mensaje = "No se ha enviado el parametro obligatorio";
-            $errores = [
+            $mensaje = "No se han encontrado valores";
+            $errores = 
+            [
                 "code" => 404,
-                "msg" => "el identificador de la zona esta vacio"
+                "msg" => "Datos no encontrados"
             ];
-        }//FIN DEL if($idzona > 0)
+        } //FIN DEL IF (!EMPTY(VALORES)){
 
+        }
+        else
+        {
+            // NO SE HA ENVIADO UN VALOR PARA EL PARAMETRO $idzona
+            $satisfactorio = false;
+            $estado = 400;
+            $mensaje = "No se ha enviado el parametro obligatorio";
+            $errores = 
+            [
+                "code" => 400,
+                "msg" => "El identificador de la zona esta vacio"
+            ];
+        }//FIN DEL IF($idzona . 0){
+        
         //SE CREA LA VARIABLE DE SALIDA
-        $respuesta = [
-                "sucess" => $satisfactorio,
-                "status" => $estado,
-                "msg" => $mensaje,
-                "data" => $valores,
-                "errors" => $errores,
-                "total" => sizeof($valores) 
+        $respuesta= [
+            "success" => $satisfactorio,
+            "status" => $estado,
+            "msg" => $mensaje,
+            "data" => $valores,
+            "errors" => $errores,
+            "total" => sizeof($valores)
         ];
 
+        //SE MUESTRA EL MENSAJE AL USUARIO
+        return response()->json($respuesta,$estado);
+    }
+
+    public function obtenerZonaPais(int $idpais = 0)
+    {
+
+        $satisfactorio = false;
+        $estado = 0;
+        $mensaje = "";
+        $errores = [];
+        $valores =[];
+
+        if($idpais > 0)
+        {
+            //EL PARAMETRO DE $idpais > 0
+            $Zona = new Zona();
+            $valores = $Zona->where('id_pais', $idpais)->get();
+
+            //VERIFICACION DE EXISTENCIA DE DATOS   
+             if(!empty($valores))
+            {
+             //SI SE ENCONTRARON DATOS
+            $satisfactorio = true;
+            $estado = 200;
+            $mensaje = "Valores encontrados";
+            $errores = 
+            [
+              "code" => 200,
+               "msg" => ""
+            ];
+         }
+         else
+         {
+            // NO SE ENCONTRARON DATOS
+            $satisfactorio = false;
+            $estado = 404;
+            $mensaje = "No se han encontrado valores";
+            $errores = 
+            [
+                "code" => 404,
+                "msg" => "Datos no encontrados"
+            ];
+        } //FIN DEL IF (!EMPTY(VALORES)){
+
+        }
+        else
+        {
+            // NO SE HA ENVIADO UN VALOR PARA EL PARAMETRO $idpais
+            $satisfactorio = false;
+            $estado = 400;
+            $mensaje = "No se ha enviado el parametro obligatorio";
+            $errores = 
+            [
+                "code" => 400,
+                "msg" => "El identificador de la pais esta vacio"
+            ];
+        }//FIN DEL IF($idpais > 0){
+        
+        //SE CREA LA VARIABLE DE SALIDA
+        $respuesta= [
+            "success" => $satisfactorio,
+            "status" => $estado,
+            "msg" => $mensaje,
+            "data" => $valores,
+            "errors" => $errores,
+            "total" => sizeof($valores)
+        ];
+
+        //SE MUESTRA EL MENSAJE AL USUARIO
+        return response()->json($respuesta,$estado);
+    }
+
+    public function crearZona(Request $request){
+
+        $satisfactorio = false;
+        $estado = 0;
+        $mensaje = "";
+        $errores = [];
+        $valores =[];
+
+        //  VALIDACION DE DATOS DE ENTRADA EN LOS PARAMETROS    
+        $validacion = $request->validate([
+            "idpais" => "required|integer|gt:0",
+            "nombrezona" => "required|max:50"
+        ]);
+
+        $Zona  = new Zona();
+
+        //Se ASIGNAN A CADA ATRIBUTO DE LA TABLA LOS CAMPOS DEL FORMULARIO
+        $Zona ->id_pais = $request->idpais;
+        //------(campo de BD)------(campo de form)
+        $Zona->nombre_zona = $request->nombrezona;
+        //------(campo de BD)------(campo de form)
+
+        $insertado = $Zona->save(); //Se hace el insert a la base de datos
+        
+        if($insertado){
+            $ultimoinsertado = $Zona->id_zona;
+            $datosinsertados = $this->obtenerZona($ultimoinsertado);
+
+            $satisfactorio = true;
+            $estado = 200;
+            $mensaje = "Se guardaron los datos correctamente";
+            $errores = 
+            [
+                "code" => 200,
+                "msg" => ""
+            ];
+        }else{
+            $satisfactorio = false;
+            $estado = 500;
+            $mensaje = "Hubo un problema al guardar los datos";
+            $errores = 
+            [
+                "code" => 500,
+                "msg" => "No se pudo hacer insert a la tabla Zona"
+            ];
+        }
+
+        //SE CREA LA VARIABLE DE SALIDA
+        $respuesta= [
+            "success" => $satisfactorio,
+            "status" => $estado,
+            "msg" => $mensaje,
+            "data" => $datosinsertados->original["data"][0],
+            "errors" => $errores,
+            "total" => $datosinsertados->original["total"]
+            //"total" => sizeof($valores)
+        ];
+
+        //SE MUESTRA EL MENSAJE AL USUARIO
         return response()->json($respuesta,$estado);
 
     }
